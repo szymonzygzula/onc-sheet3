@@ -1,9 +1,17 @@
+using Pkg
+function installPackages()
+    Pkg.add("GeometricMultigrid")
+end
+
+# installPackages() # <-- comment line after first execution, or the whole Pkg block above
+
 # using IterativeSolvers
+# using GeometricMultigrid
 
 include("sheet_3_utility.jl")
 
 ###############
-# Exercise 2a #
+# Exercise 1 #
 ###############
 
 function smoothing(A, b, x, maxiter = 3)
@@ -12,7 +20,7 @@ function smoothing(A, b, x, maxiter = 3)
 end
 
 ###############
-# Exercise 2b #
+# Exercise 1 #
 ###############
 
 function residual(A, b, x)
@@ -20,18 +28,26 @@ function residual(A, b, x)
 end
 
 ###############
-# Exercise 2c #
+# Exercise 1 #
 ###############
+
 function computeInterpolationMatrix(m, n)
     res = zeros(m,n)
     return res
 end
+
+###############
+# Exercise 1 #
+###############
 
 function computeRestrictionMatrix(m, n)
     res = zeros(m,n)
     return res
 end
 
+###############
+# Exercise 1 #
+###############
 
 function restriction(A, r)
 
@@ -45,12 +61,16 @@ function restriction(A, r)
 end
 
 ###############
-# Exercise 2d #
+# Exercise 1 #
 ###############
 
 function prolongation(x_e)
     return x_e
 end
+
+###############
+# Exercise 1 #
+###############
 
 function V_Cycle(A, b, step=1)
 
@@ -87,7 +107,7 @@ function V_Cycle(A, b, step=1)
 end
 
 ###############
-# Exercise 3a #
+# Exercise 1 #
 ###############
 
 function F_Cycle(A, b)
@@ -95,7 +115,7 @@ function F_Cycle(A, b)
 end
 
 ###############
-# Exercise 3b #
+# Exercise 1 #
 ###############
 
 function W_Cycle(A, b)
@@ -128,19 +148,28 @@ function jacobi_solver(A::Matrix, b::Vector, x_start::Vector, iter::Int64)
     x_next, error
 end
 
+
+################### EXERCISE 1 ###################
+
 m = 10
 
-A = create1DPoissonMatrix(m)
+# Calculating data for matrix equation
 b = createCoefficientVector(m)
-
+A = create1DPoissonMatrix(m)
 x, r = iterative_solver(A, b)
 
-println(Matrix{Float64}(I, m, m) * length(x))
+# Priting results for excerice 1a, 1b, 1c and 1d
+# println("1a) b = ", b)
+# println("1b) A = ", A)
+# println("1c) x = ", x)
+# println("1d) r = ", r)
 
 r_H = restriction(r)
 
 x = zeros(m)
 multigrid_result = V_Cycle(A,b,x)
+
+################### EXERCISE 2 ###################
 
 # Initializing linear system data for exercise 2
 A = [6.0 1.0 2.0; 3.0 5.0 1.0; 1.0 1.0 4.0]

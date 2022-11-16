@@ -3,14 +3,19 @@ using LinearAlgebra
 ###############
 # Exercise 1a 
 ###############
+
 function createCoefficientVector(m)
     res = zeros(m)
 
     for i = 1:m
-        res[i] = rand(Float64) * 5  
+        res[i] = 273
+
+        if i == trunc(Int, m / 3)
+            res[i] += 60
+        end
     end
 
-    return res
+    res
 end
 
 ###############
@@ -62,15 +67,4 @@ function iterative_solver(A::Matrix, b::Vector, maxiter = 100, epsilon = 1e-8)
     end
 
     x_next, A * b - x_next
-end
-
-###############
-# Exercise 1d #
-###############
-
-function restriction(r)
-    r_H = zeros(length(r))
-    
-
-    r_H
 end
